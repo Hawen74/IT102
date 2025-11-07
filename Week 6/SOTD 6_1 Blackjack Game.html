@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1>Blackjack</h1>
+    <p id="display"></p>
+
+    <script>
+      // Integrate your previous code from  "Playing Card Object" and "Deck of Cards" for the playing cards.
+      function Card(suit, rank) {
+        this.suit = suit;
+        this.rank = rank;
+        this.isVisible = false
+        
+        this.show = function() {
+          this.isVisible = true;
+        }
+
+        this.hide = function() {
+          this.isVisible = false;
+        }
+      }
+
+      //initialize all variables
+      let cardArray = [];
+      let suits = ["Spade", "Club", "Diamond", "Heart"];
+      let ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"];
+    
+      var card = 0;
+      var total = 0;
+      var hitMe = true;
+      var dealer = 0;
+
+      // Create deck of 52 cards
+      for (let i = 0; i < suits.length; i++) {
+        for (let j = 0; j < ranks.length; j++) {
+          cardArray.push(new Card(suits[i], ranks[j]));
+        }
+      }
+
+      function randomCard() {
+        let random = Math.floor(Math.random() * 52) // 0 - 51
+        //  Select a random card from your deck of cards.
+        if (["Jack", "Queen", "King"].includes(cardArray[random].rank)) {
+          card = 10;
+        } else if (cardArray[random].rank === "Ace") {
+          card = 11;
+        } else {
+          card = Number(cardArray[random].rank);
+        }
+
+        return card;
+      }
+
+      total += randomCard();
+
+      //1st card and many more.
+      do {
+        hitMe = prompt("Current total: " + total + " || Take a card? Y/N");
+        if (hitMe.toUpperCase() == "Y"){
+          hitMe = true;
+        } else {
+          hitMe = false;
+        }
+
+        if (hitMe){
+          card = randomCard();
+          total += card;
+        }
+      } while (hitMe && total <= 21);
+
+      //dealer always takes 2 cards
+      dealer = randomCard() + randomCard();
+
+      alert("Your hand is worth " + total + ". Dealer got " + dealer + ".");
+      document.getElementById("display").innerHTML = "Your hand is worth " + total + ". Dealer got " + dealer + ".";
+    </script>
+  </body>
+</html>
