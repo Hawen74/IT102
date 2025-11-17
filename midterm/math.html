@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<h1>Math Requirements Checker</h1>
+<h1>BAS Application Development Eligibility Checker</h1>
 <p>Enter your most recent or highest math course to check if you meet the BAS math requirement.</p>
 
 <form id="mathForm" onsubmit="main(); return false;">
@@ -126,11 +126,6 @@
     // 4. Otherwise → show advisor message
 
     const display = document.getElementById("result");
-
-    if (!results) {
-      display.innerHTML = "Error: Could not check eligibilitKKOy.";
-      return;
-    }
 
     if (results.meets) {
       display.innerHTML = "Congratulations! You've met the math requirement for the BAS in Application Development.";
