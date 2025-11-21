@@ -1,0 +1,75 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: darkgray;
+  color: #fff;
+  font-family: sans-serif;
+  margin-top: 30px;
+}
+
+/* Name Input */
+#form {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+}
+
+#form input {
+  width: 200px;
+  height: 30px;
+
+  border: 1px solid gray;
+  border-radius: 10px;
+  padding-left: 5px;
+}
+
+#form button {
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  width: 50px;
+  height: 30px;
+  background-color: lightblue;
+}
+
+#button {
+  border: 1px solid gray;
+  border-radius: 5px;
+  margin-top: 20px;
+  height: 30px;
+  width: auto;
+  cursor: pointer;
+  display: none;
+}
+
+/* Game */
+#gameBoard {
+  width: 400px;
+  height: 400px;
+  background-color: wheat;
+  border: 2px solid black;
+
+  display: grid;
+  grid-template-rows: repeat(20, 1fr);
+  grid-template-columns: repeat(20, 1fr);
+}
+
+.snake {
+  background-color: limegreen;
+  border-radius: 3px;
+  border: 1px solid darkgreen;
+}
+
+.food {
+  background-color: red;
+  border-radius: 50%;
+}
+
+#score {
+  margin-top: 10px;
+  font-size: 20px;
+}
+

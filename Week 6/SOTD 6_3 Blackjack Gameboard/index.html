@@ -51,7 +51,7 @@
         }
 
         function startGame(){
-            const inputValue = document.querySelector('input[type="text"]').value
+            const inputValue = document.getElementById("userForm").elements[0].value;
 
             if (!isOnlyLetters(inputValue)) {
                 alert("Enter your name! (only letters, no numbers or special characters) ");

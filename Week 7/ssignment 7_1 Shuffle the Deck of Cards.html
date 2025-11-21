@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Assignment 7_1 Shuffle the Deck of Cards</title>
+  </head>
+
+  <body>
+    <h1>Assignment 7_1 Shuffle the Deck of Cards</h1>
+    <h2>Display all cards without shuffling</h2>
+    <p id="display"></p>
+
+    <h2>Display all cards with shuffling</h2>
+    <p id="displayShuffle"></p>
+
+    <script>
+      function splitSuit(para) {
+        return {
+          Spade: para.slice(0, 13),
+          Club: para.slice(13, 26),
+          Diamond: para.slice(26, 39),
+          Heart: para.slice(39, 52)
+        }
+      }
+
+      function display(para, id) {
+        document.getElementById(id).innerHTML = `
+          Card of Spade: ${para.Spade} <br> <br>
+          Card of Club: ${para.Club} <br> <br>
+          Card of Diamond: ${para.Diamond} <br> <br>
+          Card of Heart: ${para.Heart} <br> <br>
+        `;
+      }
+
+      // Utilize the deck of 52 playing cards that was produced through the "Deck of Cards Assignment" code.
+      function Card(suit, rank) {
+        this.suit = suit;
+        this.rank = rank;
+        this.isVisible = false;
+        this.isDealt = false;
+
+        this.show = function() {
+          this.isVisible = true;
+        }
+
+        this.hide = function() {
+          this.isVisible = false;
+        }
+
+        // Add this method to your Card object
+        this.toString = function() {
+          return this.rank + " of " + this.suit;
+        };
+      }
+
+      class Card1 {
+        constructor(suit, rank) {
+          this.suit = suit;
+          this.rank = rank;
+        }
+
+        show() {
+          return this.isVisible = true;
+        }
+
+        hide() {
+          return this.isVisible = false;
+        }
+
+        toString() {
+          return this.rank + " of " + this.suit;
+        }
+      }
+
+      let cardArray = [];
+      let suits = ["Spade", "Club", "Diamond", "Heart"];
+      let ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"];
+
+      for (let i = 0; i < suits.length; i++) {
+        for (let j = 0; j < ranks.length; j++) {
+          cardArray.push(new Card(suits[i], ranks[j]));
+        }
+      }
+
+      // After the complete deck has been generated, showcase its contents (display all cards).
+      const suitGroups1 = splitSuit(cardArray);
+      display(suitGroups1, "display");
+
+      // Devise a procedure for shuffling the deck of cards.
+      let shuffledCard = cardArray.slice(); // copy
+      for (let i = shuffledCard.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        
+        //swap
+        const temp = shuffledCard[i];
+        shuffledCard[i] = shuffledCard[j];
+        shuffledCard[j] = temp;
+      }
+
+      // Present the shuffled deck of cards (display all cards).
+      const suitGroups2 = splitSuit(shuffledCard);
+      display(suitGroups2, "displayShuffle");
+    </script>
+  </body>
+</html>
