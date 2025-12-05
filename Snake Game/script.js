@@ -43,7 +43,7 @@ let settings = {
 // Snake Constructor
 // ----------------------
 function Snake() {
-  this.head = new Position(10, 10);
+  this.head = new Position(0, 0);
   this.body = [this.head];
   this.direction = new Position(1, 0); // move right initially
 }
@@ -119,7 +119,12 @@ function gameLoop() {
   if (checkCollision()) {
     gameRunning = false;
     alert(`Game Over! Score: ${settings.score}`);
-    document.getElementById("button").style.display = "block";
+
+    const buttons = document.querySelectorAll(".button");
+    buttons.forEach(button => {
+      button.style.display = "block";
+    });
+
     return;
   }
 
