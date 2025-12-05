@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blackjack Game (By Huy) </title>
+<link rel="stylesheet" href="styles/style.css">
+
+<script>
+// Start game
+async function startGame() {
+    var username = document.userForm.elements[0].value.trim();
+    try {
+        var validUsername = await validateUserName(username);
+        document.getElementById('userForm').style.display = 'none';
+        document.getElementById('gameArea').style.display = 'block';
+        document.getElementById('welcomeMessage').textContent = "Welcome " + validUsername + "!";
+
+        createDeck();
+        shuffleDeck();       // shuffle
+        dealInitialCards();  // deal initial cards
+    } catch (error) {
+        alert(error);
+    }
+}
+
+// validateUserName(username)
+function isOnlyLetters(str) {
+    return typeof str === 'string' && str.trim() !== '' && /^[a-zA-Z]+$/.test(str);
+}
+
+function validateUserName(inputValue) {
+    if (!isOnlyLetters(inputValue)) {
+        throw "Enter your name! (only letters, no numbers or special characters)";
+    }
+    return inputValue;
+}
+
+// CreateDeck Function
+class Card {
+    constructor(suit, rank) {
+        this.rank = rank;
+        this.suit = suit;
+        this.isVisible = false;
+        this.dealt = false;
+        this.image = this.constructCardImage();
+    }
+
+    constructCardImage() {
+        return `images/${this.rank}_of_${this.suit}.svg`;
+    }
+
+    show() {
+        const src = this.isVisible ? this.image : 'images/back.png';
+        return `<img src="${src}" class="card">`;
+    }
+
+    hide() {
+        this.isVisible = false;
+    }
+}
+
+let deck = [];
+let suits = ["spades", "clubs", "diamonds", "hearts"];
+let ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "jack", "queen", "king", "ace"];
+
+function createDeck() {
+    for (let i = 0; i < suits.length; i++) {
+        for (let j = 0; j < ranks.length; j++) {
+        deck.push(new Card(suits[i], ranks[j]));
+        }
+    }
+}
+
+// ShuffleDeck Function
+function shuffleDeck() {
+    for (let i = deck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        
+        //swap
+        const temp = deck[i];
+        deck[i] = deck[j];
+        deck[j] = temp;
+    }
+
+    deck.forEach(card => {
+        card.isVisible = false;
+        card.dealt = false
+    }) // shortcut loop
+
+    dealInitialCards();
+}
+
+// DealInitialCards Function
+function dealInitialCards() {
+    total = 2;
+    var dealerCardsHTML = "";
+    var playerCardsHTML = "";
+
+    function dealCard(card, visible = false) {
+        card.dealt = true;
+        card.isVisible = visible;
+        return card.show();
+    }   
+
+    dealerCardsHTML += dealCard(deck[0], true);
+    dealerCardsHTML += dealCard(deck[1], false);
+    document.getElementById("dealerCards").innerHTML = dealerCardsHTML;
+
+    // Player first 2 cards face up
+    for (var i = 2; i < 4; i++) {
+        playerCardsHTML += dealCard(deck[i], true);
+    }
+    document.getElementById("playerCards").innerHTML = playerCardsHTML;
+}
+
+// setting game
+let total = 2;
+
+function score(cards, start, count) {
+    let totalScore = 0;
+
+    for (let i = start; i < start + count; i++) {
+        let rank = cards[i].rank;
+        let value = 0;
+
+        if (["jack", "queen", "king"].includes(rank)) {
+            value = 10;
+        } else if (rank === "ace") {
+            value = 11
+        } else {
+            value = Number(rank);
+        }
+
+        totalScore += value;
+    }
+
+    return totalScore;
+}
+
+function hit() {
+    let nextCard = null;
+    let index = total + 2
+
+    if (total < 5) {
+        if (!deck[index].dealt) {
+            nextCard = deck[index];
+            deck[index].dealt = true;
+            deck[index].isVisible = true;
+        }
+
+        let existing = document.getElementById("playerCards").innerHTML;
+        document.getElementById("playerCards").innerHTML = existing + nextCard.show();
+        total++;
+    } else {
+        alert("The limit: 5 cards!");
+    }
+}
+
+function stand() {
+    deck[1].isVisible = true;
+
+    document.getElementById("dealerCards").innerHTML = deck[0].show() + deck[1].show();
+
+    let dealerScore = score(deck, 0, 2);
+    let playerScore = score(deck, 2, total);
+
+    dealerScore > playerScore || playerScore > 21
+    ? alert(`
+    Dealer: ${dealerScore}
+    Player: ${playerScore}
+    Player lose!
+    `)
+    : alert(`
+    Dealer: ${dealerScore}
+    Player: ${playerScore}
+    Player win!
+    `);
+}
+
+function returnToForm() {
+    document.getElementById("userForm").style.display = "block";
+    document.getElementById("gameArea").style.display = "none";
+}
+</script>
+</head>
+
+<body>
+<div class="game-container">
+    <h1>Blackjack Game</h1>
+    <form name="userForm" id="userForm" style="display: block;">
+        Enter your name: <input type="text"> 
+        <input type="button" value="Start Game" onclick="startGame()">
+    </form>
+</div>
+
+<div id="gameArea" style="display: none;">
+    <h2 id="welcomeMessage"></h2>
+
+    <div>
+        <h3>Dealer's Cards:</h3>
+        <div id="dealerCards" class="cards"></div>
+    </div>
+
+    <div>
+        <h3>Your Cards:</h3>
+        <div id="playerCards" class="cards"></div>
+    </div>
+
+    <div id="buttons">
+        <button id="hitButton" onclick="hit()">Hit</button>
+        <button id="standButton" onclick="stand()">Stand</button>
+        <button id="shuffleButton" onclick="shuffleDeck()">Shuffle Deck</button>
+    </div>
+
+    <h3 id="resultMessage"></h3>
+
+    <button onclick="returnToForm()">Return to Form</button>
+</div>
+</body>
+</html>
