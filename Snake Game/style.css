@@ -1,81 +1,241 @@
+/* ============================================================
+   GLOBAL STYLES
+   ============================================================ */
 body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: darkgray;
-  color: #fff;
-  font-family: sans-serif;
-  margin-top: 30px;
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 20px;
+  padding: 0;
 }
 
-/* Name Input */
+/* ============================================================
+   INSTRUCTIONS SECTION
+   ============================================================ */
+#instructions {
+  background-color: #34495e;
+  padding: 20px 30px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  max-width: 500px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+#instructions h1 {
+  margin: 0 0 15px 0;
+  font-size: 28px;
+  color: #3498db;
+}
+
+#instructions p {
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+#instructions ul {
+  text-align: left;
+  list-style-position: inside;
+  margin: 10px 0;
+  padding: 0;
+}
+
+#instructions li {
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+/* ============================================================
+   NAME INPUT FORM
+   ============================================================ */
 #form {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-
+  justify-content: center;
   gap: 10px;
+  margin-bottom: 10px;
 }
 
 #form input {
-  width: 200px;
-  height: 30px;
+  width: 250px;
+  height: 35px;
+  border: 2px solid #3498db;
+  border-radius: 8px;
+  padding: 0 10px;
+  font-size: 14px;
+  background-color: #ecf0f1;
+  color: #2c3e50;
+  transition: border-color 0.3s;
+}
 
-  border: 1px solid gray;
-  border-radius: 10px;
-  padding-left: 5px;
+#form input:focus {
+  outline: none;
+  border-color: #2ecc71;
 }
 
 #form button {
   cursor: pointer;
   border: none;
-  border-radius: 5px;
-  width: 50px;
-  height: 30px;
-  background-color: lightblue;
+  border-radius: 8px;
+  width: 100px;
+  height: 35px;
+  background-color: #3498db;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.1s;
 }
 
-.button-area {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 10px;
+#form button:hover {
+  background-color: #2980b9;
 }
-.button {
-  border: 1px solid gray;
+
+#form button:active {
+  transform: scale(0.95);
+}
+
+/* ============================================================
+   ERROR MESSAGE
+   ============================================================ */
+.error {
+  color: #e74c3c;
+  background-color: #fadbd8;
+  padding: 10px 15px;
   border-radius: 5px;
-  margin-top: 20px;
-  height: 30px;
-  width: auto;
-  cursor: pointer;
+  margin: 10px 0;
+  font-size: 14px;
   display: none;
+  border-left: 4px solid #e74c3c;
 }
 
-/* Game */
+/* ============================================================
+   PLAYER NAME DISPLAY
+   ============================================================ */
+#name-player {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 10px 0;
+  color: #3498db;
+}
+
+/* ============================================================
+   GAME BOARD
+   ============================================================ */
 #gameBoard {
   width: 400px;
   height: 400px;
-  background-color: wheat;
-  border: 2px solid black;
-
+  background-color: #27ae60;
+  border: 4px solid #16a085;
+  border-radius: 8px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+  
   display: grid;
   grid-template-rows: repeat(20, 1fr);
   grid-template-columns: repeat(20, 1fr);
+  gap: 1px;
 }
 
+/* Individual grid cells (invisible by default) */
+.cell {
+  background-color: transparent;
+}
+
+/* Snake styling */
 .snake {
-  background-color: limegreen;
+  background-color: #2ecc71;
   border-radius: 3px;
-  border: 1px solid darkgreen;
+  border: 1px solid #27ae60;
+  box-shadow: inset 0 0 3px rgba(255, 255, 255, 0.3);
 }
 
+/* Food styling */
 .food {
-  background-color: red;
+  background-color: #e74c3c;
   border-radius: 50%;
+  box-shadow: 0 0 5px rgba(231, 76, 60, 0.8);
+  animation: pulse 0.8s infinite;
 }
 
+/* Pulse animation for food */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* ============================================================
+   SCORE DISPLAY
+   ============================================================ */
 #score {
-  margin-top: 10px;
-  font-size: 20px;
+  margin-top: 15px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #f39c12;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
+/* ============================================================
+   CONTROL BUTTONS
+   ============================================================ */
+.button-area {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.button {
+  border: 2px solid #3498db;
+  border-radius: 8px;
+  height: 40px;
+  padding: 0 20px;
+  cursor: pointer;
+  background-color: #3498db;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  display: none;
+  transition: all 0.3s;
+}
+
+.button:hover {
+  background-color: #2980b9;
+  border-color: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================================
+   RESPONSIVE DESIGN
+   ============================================================ */
+@media (max-width: 600px) {
+  #gameBoard {
+    width: 300px;
+    height: 300px;
+  }
+  
+  #instructions {
+    max-width: 300px;
+    padding: 15px;
+  }
+  
+  #instructions h1 {
+    font-size: 24px;
+  }
+  
+  #form input {
+    width: 180px;
+  }
+}

@@ -6,19 +6,44 @@
   </head>
 
   <body>
-    <div id="gameBoard"></div>
-    <p id="score"></p>
+    <!-- Game Instructions -->
+    <div id="instructions">
+      <h1>🐍 Snake Game</h1>
+      <p><strong>How to Play:</strong></p>
+      <ul>
+        <li>Use <strong>Arrow Keys</strong> to control the snake</li>
+        <li>Eat the red food to grow and score points</li>
+        <li>Avoid hitting walls or yourself</li>
+        <li>Enter your name below to start playing!</li>
+      </ul>
+    </div>
 
+    <!-- Name Input Form -->
     <div id="form">
-      <input id="input-name" placeholder="Enter a name to start the game.">
-      <button onclick="start()">Start</button>
+      <input 
+        id="input-name" 
+        placeholder="Enter your name"
+        maxlength="20"
+        autocomplete="off">
+      <button onclick="start()">Start Game</button>
     </div>
     
-    <p id="name-player" style="display: none;">Name Player: </p>
+    <!-- Error message display -->
+    <p id="error-message" class="error"></p>
+    
+    <!-- Player name display -->
+    <p id="name-player" style="display: none;">Player: </p>
 
+    <!-- Game Board -->
+    <div id="gameBoard"></div>
+    
+    <!-- Score Display -->
+    <p id="score">Score: 0</p>
+
+    <!-- Control Buttons -->
     <div class="button-area">
-      <button class="button" onclick="runGame()">Play again</button>
-      <button class="button" onclick=" window.location.reload()">Restart</button>
+      <button class="button" onclick="runGame()">Play Again</button>
+      <button class="button" onclick="window.location.reload()">New Player</button>
     </div>
     
     <script src="script.js"></script>
