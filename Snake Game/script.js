@@ -1,4 +1,12 @@
 // ----------------------
+// Sounds
+// ----------------------
+const soundMove = new Audio("sounds/moving.wav");
+const soundEat = new Audio("sounds/eatfood.wav");
+const soundDead = new Audio("sounds/dead.wav");
+soundMove.loop = true;
+
+// ----------------------
 // Name Input
 // ----------------------
 function start() {
@@ -14,6 +22,7 @@ function start() {
     // ----------------------
     // Start Game
     // ----------------------
+    soundMove.play();
     runGame();
   } else {
     alert("Enter a valid name.");
@@ -108,6 +117,8 @@ function gameLoop() {
   if (newHead.x === food.position.x && newHead.y === food.position.y) {
     settings.score++;
     scoreDisplay.textContent = `Score: ${settings.score}`;
+    soundEat.currentTime = 0;
+    soundEat.play();   // <-- play eating sound
     spawnFood();
   } else {
     snake.body.pop(); // remove tail
@@ -118,6 +129,8 @@ function gameLoop() {
   // Check collision
   if (checkCollision()) {
     gameRunning = false;
+    soundDead.play();  // <-- play death sound
+    soundMove.pause();
     alert(`Game Over! Score: ${settings.score}`);
 
     const buttons = document.querySelectorAll(".button");
@@ -209,6 +222,7 @@ function spawnFood() {
 }
 
 function runGame() {
+  soundMove.play();
   resetGame();   // Reset snake, food, score
   control();     // Add keyboard listener
   gameLoop();    // Start game loop
