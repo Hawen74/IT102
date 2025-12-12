@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arithmetic Calculator</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .calculator {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      padding: 40px;
+      max-width: 500px;
+      width: 100%;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+      font-size: 2em;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #555;
+      font-weight: 500;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      font-size: 1em;
+      transition: border-color 0.3s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 30px;
+    }
+
+    button {
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      color: white;
+    }
+
+    .btn-add {
+      background-color: #4CAF50;
+    }
+
+    .btn-add:hover {
+      background-color: #45a049;
+    }
+
+    .btn-subtract {
+      background-color: #f44336;
+    }
+
+    .btn-subtract:hover {
+      background-color: #da190b;
+    }
+
+    .btn-multiply {
+      background-color: #2196F3;
+    }
+
+    .btn-multiply:hover {
+      background-color: #0b7dda;
+    }
+
+    .btn-divide {
+      background-color: #ff9800;
+    }
+
+    .btn-divide:hover {
+      background-color: #e68900;
+    }
+
+    .result {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #f5f5f5;
+      border-radius: 5px;
+      text-align: center;
+      min-height: 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .result h3 {
+      color: #667eea;
+      font-size: 0.9em;
+      margin-bottom: 10px;
+    }
+
+    .result-value {
+      font-size: 2em;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .error {
+      color: #f44336;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="calculator">
+    <h1>Calculator</h1>
+    
+    <div class="input-group">
+      <label for="num1">First Number:</label>
+      <input type="number" id="num1" placeholder="Enter first number">
+    </div>
+
+    <div class="input-group">
+      <label for="num2">Second Number:</label>
+      <input type="number" id="num2" placeholder="Enter second number">
+    </div>
+
+    <div class="buttons">
+      <button class="btn-add" onclick="performOperation('add')">Add (+)</button>
+      <button class="btn-subtract" onclick="performOperation('difference')">Subtract (-)</button>
+      <button class="btn-multiply" onclick="performOperation('products')">Multiply (×)</button>
+      <button class="btn-divide" onclick="performOperation('quotient')">Divide (÷)</button>
+    </div>
+
+    <div class="result hidden" id="resultContainer">
+      <h3 id="operationName"></h3>
+      <div class="result-value" id="resultValue"></div>
+    </div>
+  </div>
+
+  <script>
+    // Modern JavaScript arrow functions for arithmetic operations
+
+    /**
+     * Adds two numbers together.
+     * @param {number} a - The first number
+     * @param {number} b - The second number
+     * @returns {number} The sum of a and b
+     */
+    const add = (a, b) => a + b;
+
+    /**
+     * Subtracts the second number from the first number.
+     * @param {number} a - The minuend (number to subtract from)
+     * @param {number} b - The subtrahend (number to subtract)
+     * @returns {number} The difference of a and b
+     */
+    const difference = (a, b) => a - b;
+
+    /**
+     * Multiplies two numbers together.
+     * @param {number} a - The first number
+     * @param {number} b - The second number
+     * @returns {number} The product of a and b
+     */
+    const products = (a, b) => a * b;
+
+    /**
+     * Divides the first number by the second number.
+     * @param {number} a - The dividend (number to be divided)
+     * @param {number} b - The divisor (number to divide by)
+     * @returns {number|string} The quotient of a and b, or an error message if b is zero
+     */
+    const quotient = (a, b) => b !== 0 ? a / b : 'Error: Division by zero';
+
+    // Example usage:
+    // console.log(add(5, 3));           // 8
+    // console.log(difference(10, 4));   // 6
+    // console.log(products(6, 7));      // 42
+    // console.log(quotient(20, 5));     // 4
+
+    // User interaction handler
+    function performOperation(operation) {
+      const num1 = parseFloat(document.getElementById('num1').value);
+      const num2 = parseFloat(document.getElementById('num2').value);
+
+      // Validate inputs
+      if (isNaN(num1) || isNaN(num2)) {
+        showError('Please enter valid numbers');
+        return;
+      }
+
+      let result;
+      let operationName;
+
+      // Call the appropriate function
+      switch (operation) {
+        case 'add':
+          result = add(num1, num2);
+          operationName = `${num1} + ${num2} =`;
+          break;
+        case 'difference':
+          result = difference(num1, num2);
+          operationName = `${num1} - ${num2} =`;
+          break;
+        case 'products':
+          result = products(num1, num2);
+          operationName = `${num1} × ${num2} =`;
+          break;
+        case 'quotient':
+          result = quotient(num1, num2);
+          operationName = `${num1} ÷ ${num2} =`;
+          break;
+      }
+
+      // Display the result
+      displayResult(operationName, result);
+    }
+
+    function displayResult(operationName, result) {
+      const resultContainer = document.getElementById('resultContainer');
+      const operationElement = document.getElementById('operationName');
+      const resultElement = document.getElementById('resultValue');
+
+      operationElement.textContent = operationName;
+      
+      if (typeof result === 'string') {
+        resultElement.textContent = result;
+        resultElement.classList.add('error');
+      } else {
+        resultElement.textContent = result;
+        resultElement.classList.remove('error');
+      }
+
+      resultContainer.classList.remove('hidden');
+    }
+
+    function showError(message) {
+      const resultContainer = document.getElementById('resultContainer');
+      const operationElement = document.getElementById('operationName');
+      const resultElement = document.getElementById('resultValue');
+
+      operationElement.textContent = 'Error';
+      resultElement.textContent = message;
+      resultElement.classList.add('error');
+      resultContainer.classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "it-102-week-11",
+  "version": "1.0.0",
+  "description": "Arithmetic functions with Jest tests",
+  "main": "math.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.0.0"
+  }
+}
